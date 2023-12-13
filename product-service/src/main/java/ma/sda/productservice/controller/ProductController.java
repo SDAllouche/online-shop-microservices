@@ -1,7 +1,6 @@
 package ma.sda.productservice.controller;
 
 
-import lombok.RequiredArgsConstructor;
 import ma.sda.productservice.dto.ProductRequest;
 import ma.sda.productservice.dto.ProductResponse;
 import ma.sda.productservice.service.ProductService;
@@ -12,10 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
-@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
