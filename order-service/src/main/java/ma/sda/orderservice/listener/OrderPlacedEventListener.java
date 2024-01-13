@@ -2,11 +2,12 @@ package ma.sda.orderservice.listener;
 
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
-import jakarta.websocket.SendResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.sda.orderservice.event.OrderPlacedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class OrderPlacedEventListener {
 
-    /*private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
     private final ObservationRegistry observationRegistry;
 
     @EventListener
@@ -27,7 +28,8 @@ public class OrderPlacedEventListener {
         // Create Observation for Kafka Template
         try {
             Observation.createNotStarted("notification-topic", this.observationRegistry).observeChecked(() -> {
-                CompletableFuture<SendResult<String, OrderPlacedEvent>> future = kafkaTemplate.send("notificationTopic",
+                CompletableFuture<SendResult<String, OrderPlacedEvent>> future;
+                future = kafkaTemplate.send("notificationTopic",
                         new OrderPlacedEvent(event.getOrderNumber()));
                 return future.handle((result, throwable) -> CompletableFuture.completedFuture(result));
             }).get();
@@ -35,5 +37,5 @@ public class OrderPlacedEventListener {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Error while sending message to Kafka", e);
         }
-    }*/
+    }
 }
