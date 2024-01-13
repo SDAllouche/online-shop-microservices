@@ -3,7 +3,7 @@ package ma.sda.orderservice.service;
 import ma.sda.orderservice.dto.InventoryResponse;
 import ma.sda.orderservice.dto.OrderLineItemsDto;
 import ma.sda.orderservice.dto.OrderRequest;
-//import ma.sda.orderservice.event.OrderPlacedEvent;
+import ma.sda.orderservice.event.OrderPlacedEvent;
 import ma.sda.orderservice.model.Order;
 import ma.sda.orderservice.model.OrderLineItems;
 import ma.sda.orderservice.repository.OrderRepository;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +27,8 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    //private final WebClient.Builder webClientBuilder;
-    //private final ObservationRegistry observationRegistry;
+    private final WebClient.Builder webClientBuilder;
+    private final ObservationRegistry observationRegistry;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public void placeOrder(OrderRequest orderRequest) {
@@ -44,7 +44,7 @@ public class OrderService {
 
         orderRepository.save(order);
 
-        /*List<String> skuCodes = order.getOrderLineItemsList().stream()
+        List<String> skuCodes = order.getOrderLineItemsList().stream()
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 
@@ -72,7 +72,7 @@ public class OrderService {
             } else {
                 throw new IllegalArgumentException("Product is not in stock, please try again later");
             }
-        });*/
+        });
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
